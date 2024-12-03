@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using web.task.bueno.Common.Base;
 using web.task.bueno.Common.Filters;
 using web.task.bueno.Common.Session;
 using web.task.bueno.domain;
@@ -14,11 +15,10 @@ using web.task.bueno.Tools;
 namespace web.task.bueno.Controllers
 {
     [LoginFilterAtribute]
-    public class TareaController : Controller
+    public class TareaController : BaseCustomController
     {
 
         private ITareaRepository tareaRepository;
-        private WebCurrentSession webCurrentSession;
 
         public TareaController() {
             tareaRepository = new TareaRepository(Util.getCadenaConexion());
@@ -28,12 +28,9 @@ namespace web.task.bueno.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            webCurrentSession = new WebCurrentSession(this.HttpContext);
-
             var listaTareas = await tareaRepository.ListarTareaPorUsuario(1);
             ViewBag.listatareas = listaTareas;
-            ViewBag.perfil = webCurrentSession.EsLogeado;
-
+            getViewSessionPerfil();
             return View();
         }
 
@@ -63,11 +60,11 @@ namespace web.task.bueno.Controllers
         {
             try
             {
-                webCurrentSession = new WebCurrentSession(this.HttpContext);
+                var perfil = getSession(this.HttpContext);
 
                 string titulo = Convert.ToString(collection["titulo"]);
                 string descripcion = Convert.ToString(collection["descripcion"]);
-                int idUsuario = Convert.ToInt32(webCurrentSession.EsLogeado.id);
+                int idUsuario = Convert.ToInt32(perfil.EsLogeado.id);
 
                 var tarea = new Tarea();
                 tarea.Titulo = titulo;

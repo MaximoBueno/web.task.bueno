@@ -29,17 +29,12 @@ namespace web.task.bueno.Common.Filters
                 && filterContext.ActionDescriptor.ControllerDescriptor.ControllerName.Equals("Home")
                 )
             {
-               
                 base.OnActionExecuting(filterContext);
-
             }
             else
             {
-                
                 if (miSession.EsLogeado == null)
                 {
-
-                    miSession.EsPrimeraVez = "72zVttD5XHrFBqDCGBaHvJBwRdH4SJ";
                     filterContext.Result = new RedirectResult("~/Home/Index");
                     return;
                 }
@@ -48,13 +43,11 @@ namespace web.task.bueno.Common.Filters
                     base.OnActionExecuting(filterContext);
                 }
             }
-
         }
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
         }
-
     }
 }

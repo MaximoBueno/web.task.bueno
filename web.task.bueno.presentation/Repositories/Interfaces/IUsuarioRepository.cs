@@ -10,5 +10,8 @@ namespace web.task.bueno.presentation.Repositories.Interfaces
     public interface IUsuarioRepository
     {
         Task<Usuario> Login(string correo, string clave);
+
+        Task<Usuario> CrearUsuario(Usuario usuario);
+
     }
 }

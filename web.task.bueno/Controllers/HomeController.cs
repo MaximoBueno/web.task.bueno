@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using web.task.bueno.Common.Base;
 using web.task.bueno.Common.Filters;
 using web.task.bueno.Common.Session;
 using web.task.bueno.Models;
@@ -15,10 +16,9 @@ using web.task.bueno.Tools;
 namespace web.task.bueno.Controllers
 {
    
-    public class HomeController : Controller
+    public class HomeController : BaseCustomController
     {
         private IUsuarioRepository usuarioRepository;
-        private WebCurrentSession webCurrentSession;
         
         public HomeController()
         {
@@ -28,29 +28,23 @@ namespace web.task.bueno.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            webCurrentSession = new WebCurrentSession(this.HttpContext);
-            ViewBag.perfil = webCurrentSession.EsLogeado;
+            getViewSessionPerfil();
             return View();
         }
 
         [HttpGet]
         public ActionResult Contact()
         {
-            webCurrentSession = new WebCurrentSession(this.HttpContext);
-            ViewBag.perfil = webCurrentSession.EsLogeado;
+            getViewSessionPerfil();
             return View();
         }
 
         [HttpGet]
         public ActionResult Logout()
         {
-            webCurrentSession = new WebCurrentSession(this.HttpContext);
-            webCurrentSession.EsPrimeraVez = "";
-            webCurrentSession.EsLogeado = null;
-            ViewBag.perfil = null;
+            getViewSessionPerfil(true);
             return RedirectToAction("Index", "Home");
         }
-
 
         [HttpPost]
         public async Task<ActionResult> Login(FormCollection formCollection)
@@ -64,7 +58,6 @@ namespace web.task.bueno.Controllers
 
                 if (usuario == null) return RedirectToAction("Index", "Home");
 
-
                 var datosPerfil = new PerfilUsuario
                 {
                     id = usuario.Id,
@@ -72,9 +65,7 @@ namespace web.task.bueno.Controllers
                     correo = correo,
                 };
 
-                webCurrentSession = new WebCurrentSession(this.HttpContext);
-                webCurrentSession.EsLogeado = datosPerfil;
-                ViewBag.perfil = webCurrentSession.EsLogeado;
+                getViewSession(datosPerfil);
 
                 return RedirectToAction("Index", "Tarea");
 
@@ -84,8 +75,6 @@ namespace web.task.bueno.Controllers
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 return RedirectToAction("Index", "Home");
             }
-            
         }
-
     }
 }
