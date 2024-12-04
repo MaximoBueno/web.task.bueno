@@ -16,6 +16,9 @@ namespace web.task.bueno.Tools
             return ConfigurationManager.ConnectionStrings["ModelTestTask"].ConnectionString;
         }
 
-
+        public static string getAllowedCaptcha()
+        {
+            return ConfigurationManager.AppSettings["AllowedCaptcha"];
+        }
     }
 }

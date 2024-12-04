@@ -6,11 +6,9 @@ using System.Web;
 using System.Web.Mvc;
 using web.task.bueno.Common.Base;
 using web.task.bueno.Common.Filters;
-using web.task.bueno.Common.Session;
 using web.task.bueno.domain;
 using web.task.bueno.presentation.Repositories;
 using web.task.bueno.presentation.Repositories.Interfaces;
-using web.task.bueno.Tools;
 
 namespace web.task.bueno.Controllers
 {
@@ -21,7 +19,7 @@ namespace web.task.bueno.Controllers
         private ITareaRepository tareaRepository;
 
         public TareaController() {
-            tareaRepository = new TareaRepository(Util.getCadenaConexion());
+            tareaRepository = new TareaRepository(getStringConnection());
         }
 
         // GET: Tarea

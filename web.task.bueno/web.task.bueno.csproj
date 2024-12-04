@@ -53,6 +53,7 @@
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -117,6 +118,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
@@ -129,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\Base\BaseCustomController.cs" />
     <Compile Include="Common\Filters\LoginFilterAtribute.cs" />
+    <Compile Include="Common\Session\Captcha.cs" />
     <Compile Include="Common\Session\WebCurrentSession.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TareaController.cs" />

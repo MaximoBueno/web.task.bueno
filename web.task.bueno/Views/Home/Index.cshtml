@@ -11,19 +11,32 @@
                     <form id="myForm" name="myForm" method="post" enctype="multipart/form-data" 
                           action="@Url.Action("Login", "Home")">
                         <div class="col-12">
-                            <div class="mb-3">
+
+                            <div class="mb-2">
                                 <label for="email" class="form-label">Correo: <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" 
+                                <input type="email" class="form-control"
                                        name="correo" id="correo" placeholder="correo@example.com" required>
                             </div>
-                            <div class="mb-3">
+
+                            <div class="mb-2">
                                 <label for="password" class="form-label">Contraseña: <span class="text-danger">*</span></label>
                                 <input type="password" class="form-control" name="clave" id="clave"
                                        value="" placeholder="clave.example" required>
                             </div>
+
+                            <div class="mb-2" style='display: @(ViewBag.AllowedCaptcha ? "block" : "none") '>
+                                <label for="password" class="form-label">Captcha: <span class="text-danger">*</span></label><br />
+                                <div class="text-center">
+                                    <img class="img-fluid mb-1 img-thumbnail rounded " src="@ViewBag.captcha">
+                                </div>
+                                <input type="text" class="form-control" name="captcha" id="captcha"
+                                       value="" placeholder="captcha.example">
+                            </div>
+
                             <div class="mb-1">
                                 <button type="submit" class="btn btn-dark w-100">Iniciar Sesión</button>
                             </div>
+
                         </div>
                     </form>
                 </div>

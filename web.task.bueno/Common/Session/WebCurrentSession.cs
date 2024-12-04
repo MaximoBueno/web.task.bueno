@@ -21,10 +21,10 @@ namespace web.task.bueno.Common.Session
             set { this._session.Session["EsLogeado"] = value; }
         }
 
-        public String EsPrimeraVez
+        public AccessCaptcha EsCaptcha
         {
-            get { return (string)(this._session.Session["EsPrimeraVez"]); }
-            set { this._session.Session["EsPrimeraVez"] = value; }
+            get { return (AccessCaptcha)(this._session.Session["EsCaptcha"]); }
+            set { this._session.Session["EsCaptcha"] = value; }
         }
     }
 }

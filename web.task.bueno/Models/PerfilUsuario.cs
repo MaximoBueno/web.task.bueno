@@ -12,4 +12,10 @@ namespace web.task.bueno.Models
         public string nombreCompleto { get; set; }
         public string correo { get; set; }
     }
+
+    [Serializable]
+    public class AccessCaptcha
+    {
+        public string value {  get; set; }
+    }
 }

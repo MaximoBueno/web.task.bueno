@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.SessionState;
 using web.task.bueno.Common.Base;
-using web.task.bueno.Common.Filters;
-using web.task.bueno.Common.Session;
 using web.task.bueno.Models;
 using web.task.bueno.presentation.Repositories;
 using web.task.bueno.presentation.Repositories.Interfaces;
-using web.task.bueno.Tools;
 
 namespace web.task.bueno.Controllers
 {
@@ -19,16 +16,20 @@ namespace web.task.bueno.Controllers
     public class HomeController : BaseCustomController
     {
         private IUsuarioRepository usuarioRepository;
+        private bool validarCaptcha = false;
         
         public HomeController()
         {
-            usuarioRepository = new UsuarioRepository(Util.getCadenaConexion());
+            usuarioRepository = new UsuarioRepository(getStringConnection());
+            validarCaptcha = getAllowedCaptcha(); 
         }
 
         [HttpGet]
         public ActionResult Index()
         {
             getViewSessionPerfil();
+            getViewCaptcha(setLetterCaptcha());
+            ViewBag.AllowedCaptcha = validarCaptcha;
             return View();
         }
 
@@ -53,6 +54,11 @@ namespace web.task.bueno.Controllers
             {
                 string correo = Convert.ToString(formCollection["correo"]);
                 string clave = Convert.ToString(formCollection["clave"]);
+                string captcha = Convert.ToString(formCollection["captcha"]);
+
+                string captchaGenerate = getLetterCaptcha();
+
+                if (validarCaptcha == true && captchaGenerate != captcha) return RedirectToAction("Index", "Home");
 
                 var usuario = await usuarioRepository.Login (correo, clave);
 
