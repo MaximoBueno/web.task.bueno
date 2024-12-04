@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using web.task.bueno.domain;
+using web.task.bueno.presentation.Data.UsuarioData;
 using web.task.bueno.presentation.Repositories.Interfaces;
 
 namespace web.task.bueno.presentation.Repositories
@@ -19,13 +20,19 @@ namespace web.task.bueno.presentation.Repositories
             _context = new ModelTestTask(bd);
         }
 
-        public async Task<Usuario> CrearUsuario(Usuario usuario)
+        public async Task<Usuario> CrearUsuario(UsuarioRequest usuario)
         {
-            usuario.FechaCreacion = DateTime.Now;
-            _context.Usuario.Add(usuario);
+            //Transfer data
+            var usuarioNew = new Usuario();
+            usuarioNew.NombreCompleto = usuario.Nombre;
+            usuarioNew.Correo = usuario.Correo;
+            usuarioNew.Clave = usuario.Clave;
+            usuarioNew.FechaCreacion = DateTime.Now;
+            //Transfer data
+            _context.Usuario.Add(usuarioNew);
             await _context.SaveChangesAsync();
 
-            return usuario;
+            return usuarioNew;
         }
 
         public async Task<Usuario> Login(string correo, string clave)

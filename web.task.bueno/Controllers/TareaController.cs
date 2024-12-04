@@ -27,9 +27,9 @@ namespace web.task.bueno.Controllers
         public async Task<ActionResult> Index()
         {
             var listaTareas = await tareaRepository.ListarTareaPorUsuario(1);
-            ViewBag.listatareas = listaTareas;
+            //ViewBag.listatareas = listaTareas;
             getViewSessionPerfil();
-            return View();
+            return View(listaTareas);
         }
 
         // GET: Tarea/Details/5
@@ -40,9 +40,9 @@ namespace web.task.bueno.Controllers
 
             var tarea = await tareaRepository.obtenerTarea((int)id);
 
-            ViewBag.tarea = tarea;
+            //ViewBag.tarea = tarea;
 
-            return View();
+            return View(tarea);
         }
 
         // GET: Tarea/Create

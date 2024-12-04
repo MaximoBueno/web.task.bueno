@@ -11,13 +11,13 @@ namespace web.task.bueno.Common.Base
 {
     public abstract class BaseCustomController : Controller
     {
-        //get perfil sesion
+        //get perfil session
         private static PerfilUsuario getPerfilSession(HttpContextBase httpContext) {
             var webSession = new WebCurrentSession(httpContext);
             return webSession.EsLogeado;
         }
 
-        //set perfil sesion
+        //set perfil session
         private static PerfilUsuario setPerfilSession(HttpContextBase httpContext, PerfilUsuario perfilUsuario)
         {
             var webSession = new WebCurrentSession(httpContext);
@@ -25,7 +25,7 @@ namespace web.task.bueno.Common.Base
             return webSession.EsLogeado;
         }
 
-        //remove sesion
+        //remove session
         private static WebCurrentSession removeSession(HttpContextBase httpContext)
         {
             var webSession = new WebCurrentSession(httpContext);
@@ -33,7 +33,7 @@ namespace web.task.bueno.Common.Base
             return null;
         }
 
-        //get sesion
+        //get session
         public static WebCurrentSession getSession(HttpContextBase httpContext)
         {
             return new WebCurrentSession(httpContext);
@@ -49,6 +49,13 @@ namespace web.task.bueno.Common.Base
             {
                 ViewBag.perfil = getPerfilSession(this.HttpContext);
             }
+        }
+
+        //recover or set state of transacction
+        public string stateViewTransaction
+        {
+            get { return (string)(TempData["estado"]); }
+            set { TempData["estado"] = value; }
         }
 
         public void getViewSession(PerfilUsuario perfilUsuario)
@@ -82,25 +89,32 @@ namespace web.task.bueno.Common.Base
 
         public void getViewCaptcha(string texto)
         {
+            string imgSrc = string.Empty;
+
             try
             {
-                var captcha = new Captcha();
+                //allowed process generated captcha
+                if(getAllowedCaptcha())
+                {
+                    var captcha = new Captcha();
 
-                var bmp = captcha.CreateBitmapWithColor(100, 60,
-                    new ColorBitmapRgb { blue = 244, green = 169, red = 3 },
-                    texto
-                    );
+                    var bmp = captcha.CreateBitmapWithColor(100, 60,
+                        new ColorBitmapRgb { blue = 244, green = 169, red = 3 },
+                        texto
+                       );
 
-                var arr = captcha.ConvertBitmpaToArray(bmp);
+                    var arr = captcha.ConvertBitmpaToArray(bmp);
 
-                var imgSrc = "data:image/jpg;base64, " + Convert.ToBase64String(arr, 0, arr.Length);
+                    imgSrc = "data:image/jpg;base64, " + Convert.ToBase64String(arr, 0, arr.Length);
+
+                }
 
                 ViewBag.captcha = imgSrc;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
-                ViewBag.captcha = "";
+                ViewBag.captcha = imgSrc;
             }
         }
 

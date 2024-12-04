@@ -1,29 +1,30 @@
 ﻿@{
     ViewBag.Title = "Editar Tarea";
 
-    var tarea = (web.task.bueno.domain.Tarea) ViewBag.tarea;
+    //var tarea = (web.task.bueno.domain.Tarea)ViewBag.tarea;
 
 }
+@model web.task.bueno.domain.Tarea
 
-<main class="" >
-    
+<main class="">
+
     <div class="container">
         <h2 class="text-primary">@ViewBag.Title</h2>
 
         <form id="myForm" name="myForm" method="post" enctype="multipart/form-data"
-              action="@Url.Action("Edit", "Tarea", new {id = tarea.Id})">
+              action="@Url.Action("Edit", "Tarea", new {id = Model.Id})">
 
             <div class="form-group mb-2">
                 <label for="titulo">Titulo:</label>
                 <input type="text" class="form-control" id="titulo" name="titulo" maxlength="100"
-                       value="@tarea.Titulo"
+                       value="@Model.Titulo"
                        placeholder="Escribir el Titulo" required>
             </div>
 
             <div class="form-group mb-3">
                 <label for="descripcion">Descripción:</label>
                 <input type="text" class="form-control" id="descripcion" name="descripcion" maxlength="200"
-                       value="@tarea.Descripcion"
+                       value="@Model.Descripcion"
                        placeholder="Escribir una Descripción" required>
             </div>
 
@@ -33,10 +34,7 @@
                 <a href="@Url.Action("Index", "Tarea")" class="btn btn-sm btn-primary">Regresar</a>
             </div>
 
-           
-
         </form>
-
 
     </div>
 

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using web.task.bueno.Common.Base;
+using web.task.bueno.Common.Constants;
 using web.task.bueno.Models;
+using web.task.bueno.presentation.Data.UsuarioData;
 using web.task.bueno.presentation.Repositories;
 using web.task.bueno.presentation.Repositories.Interfaces;
 
@@ -34,6 +36,15 @@ namespace web.task.bueno.Controllers
         }
 
         [HttpGet]
+        public ActionResult Create()
+        {
+            getViewSessionPerfil();
+            getViewCaptcha(setLetterCaptcha());
+            ViewBag.AllowedCaptcha = validarCaptcha;
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult Contact()
         {
             getViewSessionPerfil();
@@ -48,6 +59,51 @@ namespace web.task.bueno.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> Crear(FormCollection formCollection)
+        {
+
+            try
+            {
+                string nombre = Convert.ToString(formCollection["nombre"]);
+                string correo = Convert.ToString(formCollection["correo"]);
+                string clave = Convert.ToString(formCollection["clave"]);
+                string captcha = Convert.ToString(formCollection["captcha"]);
+
+                string captchaGenerate = getLetterCaptcha();
+
+                if (validarCaptcha == true && captchaGenerate != captcha)
+                {
+                    stateViewTransaction = MessageConstants.ERROR_CAPTCHA;
+                    return RedirectToAction("Create", "Home");
+                }
+
+                var crear = new UsuarioRequest
+                {
+                    Nombre = nombre,
+                    Correo = correo,
+                    Clave = clave
+                };
+
+                var usuario = await usuarioRepository.CrearUsuario(crear);
+
+                if (usuario.Id == 0) {
+                    stateViewTransaction = MessageConstants.ERROR_GENERICO_REGISTRO;
+                    return RedirectToAction("Create", "Home");
+                }
+
+                stateViewTransaction = MessageConstants.EXITO_USUARIO_REGISTRO;
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                stateViewTransaction = MessageConstants.ERROR_GENERICO + " " + ex.Message;
+                return RedirectToAction("Create", "Home");
+            }
+        }
+
+        [HttpPost]
         public async Task<ActionResult> Login(FormCollection formCollection)
         {
             try
@@ -58,11 +114,18 @@ namespace web.task.bueno.Controllers
 
                 string captchaGenerate = getLetterCaptcha();
 
-                if (validarCaptcha == true && captchaGenerate != captcha) return RedirectToAction("Index", "Home");
+                if (validarCaptcha == true && captchaGenerate != captcha)
+                {
+                    stateViewTransaction = MessageConstants.ERROR_CAPTCHA;
+                    return RedirectToAction("Index", "Home");
+                }
 
                 var usuario = await usuarioRepository.Login (correo, clave);
 
-                if (usuario == null) return RedirectToAction("Index", "Home");
+                if (usuario == null) {
+                    stateViewTransaction = MessageConstants.ERROR_LOGIN;
+                    return RedirectToAction("Index", "Home");
+                }
 
                 var datosPerfil = new PerfilUsuario
                 {
@@ -79,6 +142,7 @@ namespace web.task.bueno.Controllers
             catch(Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
+                stateViewTransaction = MessageConstants.ERROR_GENERICO + " " + ex.Message;
                 return RedirectToAction("Index", "Home");
             }
         }

@@ -1,15 +1,18 @@
 ﻿@{
     ViewBag.Title = "Lista de Tareas";
 
-    var esLogeado = (web.task.bueno.Models.PerfilUsuario)ViewBag.EsLogeado;
+    var esLogeado = (web.task.bueno.Models.PerfilUsuario)ViewBag.perfil;
 
-    var listaTareas = (List<web.task.bueno.domain.Tarea>)ViewBag.listaTareas;
+    //var listaTareas = (List<web.task.bueno.domain.Tarea>)ViewBag.listaTareas;
 
 }
+
+@model List<web.task.bueno.domain.Tarea>
 
 <main class="">
 
     <div class="container">
+        <h3 class="text-primary text-sm-start">Hola, @esLogeado.nombreCompleto</h3>
         <div class="mb-4 d-flex justify-content-end">
 
             <a href="@Url.Action("Create","Tarea")" class="btn btn-success btn-sm">Nueva Tarea</a>
@@ -17,16 +20,16 @@
 
         <table class="table table-hover table-sm">
             <thead>
-            <th>N°</th>
-            <th>Titulo </th>
-            <th>Descripcion</th>
-            <th> </th>
-            <th> </th>
+                <th>N°</th>
+                <th>Titulo </th>
+                <th>Descripcion</th>
+                <th> </th>
+                <th> </th>
             </thead>
             <tbody>
 
                 @{int contador = 0;}
-                @foreach (var tarea in listaTareas)
+                @foreach (var tarea in Model)
                 {
                     contador = @contador + 1;
 
@@ -59,7 +62,7 @@
 </main>
 
 @section scripts {
-   
+
     <script type="text/javascript">
 
 

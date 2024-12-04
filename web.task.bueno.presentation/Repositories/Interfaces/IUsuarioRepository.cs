@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using web.task.bueno.domain;
+using web.task.bueno.presentation.Data.UsuarioData;
 
 namespace web.task.bueno.presentation.Repositories.Interfaces
 {
@@ -11,7 +12,7 @@ namespace web.task.bueno.presentation.Repositories.Interfaces
     {
         Task<Usuario> Login(string correo, string clave);
 
-        Task<Usuario> CrearUsuario(Usuario usuario);
+        Task<Usuario> CrearUsuario(UsuarioRequest usuario);
 
     }
 }

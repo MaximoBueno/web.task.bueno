@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\UsuarioData\UsuarioRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Interfaces\ITareaRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUsuarioRepository.cs" />
