@@ -9,15 +9,15 @@ GO
 --DROP TABLE Usuario
 CREATE TABLE Usuario (
 	Id INT IDENTITY(1,1) PRIMARY KEY,
-	NombreCompleto VARCHAR(150),
-	Correo VARCHAR(100),
-	Clave VARCHAR(100),
+	NombreCompleto VARCHAR(160),
+	Correo VARCHAR(150),
+	Clave VARCHAR(200),
 	Activo BIT DEFAULT '0',
 	FechaCreacion DATETIME DEFAULT GETDATE(),
 	FechaModificacion DATETIME
 )
 
---DROP TABLE Usuario
+--DROP TABLE Tarea
 CREATE TABLE Tarea (
 	Id INT IDENTITY(1,1) PRIMARY KEY,
 	IdUsuario INT,

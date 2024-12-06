@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using web.task.bueno.Common.Base;
 using web.task.bueno.Common.Constants;
 using web.task.bueno.Models;
+using web.task.bueno.presentation.Data.PasswordData;
 using web.task.bueno.presentation.Data.UsuarioData;
 using web.task.bueno.presentation.Repositories;
 using web.task.bueno.presentation.Repositories.Interfaces;
@@ -18,11 +19,13 @@ namespace web.task.bueno.Controllers
     public class HomeController : BaseCustomController
     {
         private IUsuarioRepository usuarioRepository;
+        private IToolEncryptionRepository toolRepository;
         private bool validarCaptcha = false;
         
         public HomeController()
         {
             usuarioRepository = new UsuarioRepository(getStringConnection());
+            toolRepository = new ToolEncryptionRepository();
             validarCaptcha = getAllowedCaptcha(); 
         }
 
@@ -71,6 +74,8 @@ namespace web.task.bueno.Controllers
 
                 string captchaGenerate = getLetterCaptcha();
 
+                var hashed = toolRepository.EncodePassword(clave);
+
                 if (validarCaptcha == true && captchaGenerate != captcha)
                 {
                     stateViewTransaction = MessageConstants.ERROR_CAPTCHA;
@@ -81,7 +86,8 @@ namespace web.task.bueno.Controllers
                 {
                     Nombre = nombre,
                     Correo = correo,
-                    Clave = clave
+                    Clave = hashed,
+                    Salt = ""
                 };
 
                 var usuario = await usuarioRepository.CrearUsuario(crear);
@@ -114,16 +120,23 @@ namespace web.task.bueno.Controllers
 
                 string captchaGenerate = getLetterCaptcha();
 
-                if (validarCaptcha == true && captchaGenerate != captcha)
+                if (validarCaptcha == true && captchaGenerate != captcha.Trim())
                 {
                     stateViewTransaction = MessageConstants.ERROR_CAPTCHA;
                     return RedirectToAction("Index", "Home");
                 }
 
-                var usuario = await usuarioRepository.Login (correo, clave);
+                var usuario = await usuarioRepository.Login (correo.Trim());
 
                 if (usuario == null) {
                     stateViewTransaction = MessageConstants.ERROR_LOGIN;
+                    return RedirectToAction("Index", "Home");
+                }
+
+                var validarPass = toolRepository.ValidatePassword(clave, usuario.Clave);
+
+                if (validarPass == false) {
+                    stateViewTransaction = MessageConstants.ERROR_LOGIN_HASHED;
                     return RedirectToAction("Index", "Home");
                 }
 

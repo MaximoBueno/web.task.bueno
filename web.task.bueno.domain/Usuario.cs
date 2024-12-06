@@ -17,13 +17,13 @@ namespace web.task.bueno.domain
 
         public int Id { get; set; }
 
-        [StringLength(150)]
+        [StringLength(160)]
         public string NombreCompleto { get; set; }
 
-        [StringLength(100)]
+        [StringLength(150)]
         public string Correo { get; set; }
 
-        [StringLength(100)]
+        [StringLength(200)]
         public string Clave { get; set; }
 
         public bool? Activo { get; set; }

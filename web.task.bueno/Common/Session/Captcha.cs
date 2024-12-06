@@ -9,7 +9,7 @@ namespace web.task.bueno.Common.Session
 {
     public class Captcha
     {
-        private string token = "0123456789aeiou";
+        private const string token = "0123456789aeiu";
 
         public byte[] ConvertBitmpaToArray(Bitmap bmp)
         {
@@ -58,7 +58,7 @@ namespace web.task.bueno.Common.Session
             }
         }
 
-        public string GetRandomCaptcha(int length = 4)
+        public string GetRandomCaptcha(int length = 3)
         {
             try
             {

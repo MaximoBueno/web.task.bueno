@@ -20,5 +20,19 @@ namespace web.task.bueno.Tools
         {
             return ConfigurationManager.AppSettings["AllowedCaptcha"];
         }
+
+        //evaluar
+        public static int getTimeOut() {
+            try
+            {
+                return Convert.ToInt32((
+                    (System.Web.Configuration.SessionStateSection)ConfigurationManager.GetSection("system.web/sessionState")
+                ).Timeout.TotalMinutes);
+            }
+            catch
+            {
+                return -1;
+            }
+        }
     }
 }

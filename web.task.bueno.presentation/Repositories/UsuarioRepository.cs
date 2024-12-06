@@ -35,9 +35,9 @@ namespace web.task.bueno.presentation.Repositories
             return usuarioNew;
         }
 
-        public async Task<Usuario> Login(string correo, string clave)
+        public async Task<Usuario> Login(string correo)
         {
-            return await _context.Usuario.Where(x => x.Correo == correo && x.Clave == clave).FirstOrDefaultAsync();
+            return await _context.Usuario.Where(x => x.Correo == correo).FirstOrDefaultAsync();
         }
 
     }
