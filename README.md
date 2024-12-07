@@ -2,7 +2,7 @@
 ## ¿Qué es?
 Es una web que permite crear, editar, actualizar y eliminar tareas por cada usuario.
 
-## Requisitos:
+## Tecnologías Principales:
 * Net Framework 4.8.
 * SQL Server 2019.
 
