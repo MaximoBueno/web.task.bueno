@@ -7,4 +7,4 @@ Es una web que permite crear, editar, actualizar y eliminar tareas por cada usua
 * SQL Server 2019.
 
 ## Autor:
-* Maximo Hugo Bueno Uribe.
+* Max.
