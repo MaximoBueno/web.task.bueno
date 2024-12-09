@@ -1,9 +1,9 @@
 # web.task.bueno
 ## ¿Qué es?
-Es una web que permite crear, editar, actualizar y eliminar tareas por cada usuario.
+Es una web que permite gestionar tareas e iniciar sesion y crear usuarios.
 
 ## Tecnologías Principales:
-* ASP NET MVC
+* ASP NET MVC.
 * Net Framework 4.8.
 * Entity Framework.
 * SQL Server 2019.
