@@ -1,6 +1,6 @@
 # web.task.bueno
 ## ¿Qué es?
-Es una web que permite gestionar tareas e iniciar sesion y crear usuarios.
+Es una web que permite gestionar tareas e iniciar sesión y crear usuarios.
 
 ## Tecnologías Principales:
 * ASP NET MVC.
