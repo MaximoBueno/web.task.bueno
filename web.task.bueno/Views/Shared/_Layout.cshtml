@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html translate="no">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate" />
+    <title>@ViewBag.Title - APP TASK</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            @Html.ActionLink("APP TASK", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    title="Alternar navegación" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Contacto", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    @if (ViewBag.perfil != null)
+                    {
+                        <li>@Html.ActionLink("Tarea", "Index", "Tarea", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Cerrar Sesión", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>
+                &copy; @DateTime.Now.Year - APP TASK<br />
+                &#128187; maxhugobueno@gmail.com
+            </p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    @section scripts{
+        <script>
+
+            //evaluar
+            function VigilaActividad(timeOut) {
+
+                // Contador de tiempo en el que el usuario está inactivo.
+                var segundosDesdeUltimaActividad = 0;
+
+                // Recuperamos del Controlador el valor timeOut definido en sessionState del Web.config
+                //var timeOut = '';
+
+                var maximaInactividad = timeOut * 60;
+
+                // A intervalos de 1 segundo (1000) revisa el estado del contador.
+                setInterval(function () {
+                    segundoDesdeUltimaActividad++;
+
+                    if (segundosDesdeUltimaActividad > maximaInactividad) {
+                        location.href = '../Home/Index';
+                    }
+                }, 1000);
+
+                // Esta funcion inicializa el contador de inactividad, sucede cuando se detecta que el usuario está trabajan
+                function reseteaActividad() {
+                    segundosDesdeUltimaActividad = 0;
+                }
+
+                // Vector con los eventos que vigila.
+                // ----------------------------------
+                var EventosActividad = [
+                    'keydown', 'keypress', 'scroll', 'mousedown', 'mousemove', 'touchstart', 'resize'
+                ];
+
+                // Creamos "Escuchadores" de eventos al documento
+                EventosActividad.forEach(function (eventName) {
+                    document.addEventListener(eventName, reseteaActividad, true);
+                });
+            }
+
+        
+        </script>
+    }
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Lista de Tareas";
+
+    var esLogeado = (web.task.bueno.Models.PerfilUsuario)ViewBag.perfil;
+
+    //var listaTareas = (List<web.task.bueno.domain.Tarea>)ViewBag.listaTareas;
+
+}
+
+@model List<web.task.bueno.domain.Tarea>
+
+<main class="">
+
+    <div class="container">
+        <h3 class="text-primary text-sm-start">Hola, @esLogeado.nombreCompleto</h3>
+        <div class="mb-4 d-flex justify-content-end">
+
+            <a href="@Url.Action("Create","Tarea")" class="btn btn-success btn-sm">Nueva Tarea</a>
+        </div>
+
+        <table class="table table-hover table-sm">
+            <thead>
+                <th>N°</th>
+                <th>Titulo </th>
+                <th>Descripcion</th>
+                <th> </th>
+                <th> </th>
+            </thead>
+            <tbody>
+
+                @{int contador = 0;}
+                @foreach (var tarea in Model)
+                {
+                    contador = @contador + 1;
+
+                    <tr>
+                        <td>@contador</td>
+                        <td>@tarea.Titulo</td>
+                        <td>@tarea.Descripcion</td>
+                        <td class="text-lg-end text-sm-end">
+                            <a class="btn btn-warning btn-sm"
+                               href="@Url.Action("Details", "Tarea", new { id = tarea.Id })">Editar</a>
+
+                        </td>
+                        <td class="text-lg-end text-sm-end">
+
+                            <button class="btn btn-danger btn-sm eliminar"
+                                    id="eliminar.@tarea.Id">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+
+
+    </div>
+
+</main>
+
+@section scripts {
+
+    <script type="text/javascript">
+
+
+        $(".eliminar").click(function (event) {
+
+            event.preventDefault();
+
+            let decision = confirm("¿Desea Eliminar la tarea?");
+
+
+            if (decision) {
+
+                let id = $(this).attr("id");
+
+
+                $.ajax({
+                    url: "@Url.Action("Delete", "Tarea")",
+                    method: "POST",
+                    data: { id: id },
+                    dataType: "json",
+                    beforeSend: function () {
+                        console.log("Antes del envio", id);
+                    },
+                    success: function (data) {
+
+                        if (data === "true" || data === true) {
+                            window.location.reload();
+                        }
+
+                    }
+                });
+
+            }
+
+        });
+    </script>
+}
