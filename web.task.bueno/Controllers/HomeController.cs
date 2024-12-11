@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using web.task.bueno.Common.Base;
 using web.task.bueno.Common.Constants;
 using web.task.bueno.Models;
-using web.task.bueno.presentation.Data.PasswordData;
 using web.task.bueno.presentation.Data.UsuarioData;
 using web.task.bueno.presentation.Repositories;
 using web.task.bueno.presentation.Repositories.Interfaces;
@@ -25,7 +24,7 @@ namespace web.task.bueno.Controllers
         public HomeController()
         {
             usuarioRepository = new UsuarioRepository(getStringConnection());
-            toolRepository = new ToolEncryptionRepository();
+            toolRepository = new ToolEncryptionRepository(getStringKeyPass());
             validarCaptcha = getAllowedCaptcha(); 
         }
 

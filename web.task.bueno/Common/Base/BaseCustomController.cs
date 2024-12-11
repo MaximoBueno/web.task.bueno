@@ -51,6 +51,11 @@ namespace web.task.bueno.Common.Base
             }
         }
 
+        public int getIdSesion()
+        {
+            return getPerfilSession(this.HttpContext).id;
+        }
+
         //recover or set state of transacction
         public string stateViewTransaction
         {
@@ -126,6 +131,11 @@ namespace web.task.bueno.Common.Base
         public string getStringConnection()
         {
             return Convert.ToString(Util.getCadenaConexion());
+        }
+
+        public string getStringKeyPass()
+        {
+            return Convert.ToString(Util.getStringKeyPass());
         }
 
     }

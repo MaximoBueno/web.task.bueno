@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using web.task.bueno.presentation.Data.PasswordData;
-using web.task.bueno.presentation.Repositories.Interfaces;
-
-using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.IO;
+
+using web.task.bueno.presentation.Repositories.Interfaces;
 
 namespace web.task.bueno.presentation.Repositories
 {
     public class ToolEncryptionRepository : IToolEncryptionRepository
     {
 
-        private const string EncryptionKey = "PRUEBA-ENCRYPTACION";
+        private string EncryptionKey;
+
+        public ToolEncryptionRepository(string key) { 
+            EncryptionKey = key;
+        }
 
         public string EncodePassword(string password)
         {

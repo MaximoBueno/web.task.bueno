@@ -32,9 +32,3 @@ CREATE TABLE Tarea (
 
 SELECT * FROM Tarea
 SELECT * FROM Usuario
-
---INSERT INTO Usuario(NombreCompleto, Correo, Clave)
---VALUES('Maximo Hugo', 'maxhugobueno@gmail.com', '123')
-
---INSERT INTO Tarea(IdUsuario, Titulo, Descripcion)
---VALUES(1, 'Prueba Ti', 'Prueba Desp')

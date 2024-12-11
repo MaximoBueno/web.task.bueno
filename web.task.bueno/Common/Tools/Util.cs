@@ -21,6 +21,11 @@ namespace web.task.bueno.Tools
             return ConfigurationManager.AppSettings["AllowedCaptcha"];
         }
 
+        public static string getStringKeyPass()
+        {
+            return ConfigurationManager.AppSettings["KeyStringPass"];
+        }
+
         //evaluar
         public static int getTimeOut() {
             try

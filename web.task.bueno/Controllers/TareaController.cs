@@ -26,7 +26,7 @@ namespace web.task.bueno.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            var listaTareas = await tareaRepository.ListarTareaPorUsuario(1);
+            var listaTareas = await tareaRepository.ListarTareaPorUsuario(getIdSesion());
             //ViewBag.listatareas = listaTareas;
             getViewSessionPerfil();
             return View(listaTareas);
@@ -58,11 +58,9 @@ namespace web.task.bueno.Controllers
         {
             try
             {
-                var perfil = getSession(this.HttpContext);
-
                 string titulo = Convert.ToString(collection["titulo"]);
                 string descripcion = Convert.ToString(collection["descripcion"]);
-                int idUsuario = Convert.ToInt32(perfil.EsLogeado.id);
+                int idUsuario = Convert.ToInt32(getIdSesion());
 
                 var tarea = new Tarea();
                 tarea.Titulo = titulo;
